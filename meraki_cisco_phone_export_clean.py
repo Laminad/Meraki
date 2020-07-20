@@ -46,7 +46,7 @@ if __name__ == "__main__":
         # Covance Meraki Organization ID. 
         # m.organizations.getOrganizations() 
         # Is the API method that was used to get this information.
-        organization_id = "630503947831870169" 
+        organization_id = input("Enter the Organization ID: ") 
 
         # The output file to export the device names and mgmt IPs after the script has completed.
         output_file = input("Enter the file path for the cisco device output file: ")
