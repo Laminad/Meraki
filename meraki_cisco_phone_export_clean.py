@@ -55,26 +55,14 @@ if __name__ == "__main__":
 
         # The output file to export the site names and device info after the script has completed.
         output_file = input("Enter the file path for the output file: ")
-
-        # m.config_templates.getOrganizationConfigTemplates(organization_id)
-        # This command was used to find the device template IDs below.
-        """
-            {
-                'id': 'N_630503947831923190', 
-                'name': 'CLS-PROD-MX250-Template', 
-                'productTypes': ['appliance'], 
-                'timeZone': 'US/Central'
-            }
-            {
-                'id': 'N_630503947831946699', 
-                'name': 'CLS-EMEA-MX100-Template', 
-                'productTypes': ['appliance'], 
-                'timeZone': 'Greenwich'
-            }
-        """
-
-        # The specific configuration templates IDs to use in the script.
-        config_template_ids = ['N_630503947831923190', 'N_630503947831946699']
+        
+        # Outputting the organization config templates and asking the user to select the
+        # specific template they with the client information they would like.
+        m.config_templates.getOrganizationConfigTemplates(organization_id)
+        config_template_ids = []
+        while user_input != 0:
+            user_input = input("Enter a configuration template ID or 0 to end: ")
+            config_template_ids.append(user_input)
         
         with open(output_file, "w") as ofile:
             
