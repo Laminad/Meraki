@@ -62,7 +62,8 @@ if __name__ == "__main__":
         config_template_ids = []
         while user_input != 0:
             user_input = input("Enter a configuration template ID or 0 to end: ")
-            config_template_ids.append(user_input)
+            if user_input != 0:
+                config_template_ids.append(user_input)
         
         with open(output_file, "w") as ofile:
             
