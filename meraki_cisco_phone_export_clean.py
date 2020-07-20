@@ -25,7 +25,7 @@ def network_id_list_generator(net_devices):
     return network_ids
 
 # A functions that takes a network id list and output file object and exports 
-# the Cisco clients, network name, Meraki serial, and client MAC to the output file.
+# the network name, Meraki serial, manufacturer (Cisco Systems) and client MAC to the output file.
 def cisco_device_export(net_ids, output_file):
         output_file.write("Network Name, Serial #, Manufacturer, MAC Address\n")
         for net_id in net_ids:
