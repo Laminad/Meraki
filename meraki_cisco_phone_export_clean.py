@@ -4,10 +4,9 @@ import meraki
 import sys
 
 # A function that creates a list of devices associated with a specific device template in the Meraki dashboard.
-def network_device_list_generator(org_id, config_temp_ids):
+def network_device_list_generator(org_id, template):
     network_devices = []
-    for template in config_temp_ids:
-        network_devices = m.networks.getOrganizationNetworks(org_id, configTemplateId=template)
+    network_devices = m.networks.getOrganizationNetworks(org_id, configTemplateId=template)
     return network_devices
 
 # A function that takes a list network devices and creates a list of their network IDs.
@@ -20,7 +19,7 @@ def network_id_list_generator(net_devices):
 # A functions that takes a network id list and output file and exports 
 # the Cisco clients, network name, Meraki serial, and client MAC address to the output file.
 def cisco_device_export(net_ids, output_file):
-    with open(output_file, "w") as f:
+    with open(output_file, "r+") as f:
         f.write("Network Name, Serial #, Manufacturer, MAC Address\n")
         for net_id in net_ids:
             serial = m.devices.getNetworkDevices(net_id)[0]['serial']
@@ -69,22 +68,24 @@ if __name__ == "__main__":
 
         # The specific configuration templates IDs to use in the script.
         config_template_ids = ['N_630503947831923190', 'N_630503947831946699']
+        
+        for template in config_template_ids:
+            
+            # Getting the network_devices using the network_device_list function
+            print("{} INFO: Generating the list of network devices associated with the configuration templates.".format(dt.now()))
+            print("-"*120)
+            net_devices = network_device_list_generator(organization_id, template)
 
-        # Getting the network_devices using the network_device_list function
-        print("{} INFO: Generating the list of network devices associated with the configuration templates.".format(dt.now()))
-        print("-"*120)
-        net_devices = network_device_list_generator(organization_id, config_template_ids)
+            # Getting the network IDs using the network device list generated and the network_id_list function.
+            print("{} INFO: Generating the list of network IDs associated with the network devices.".format(dt.now()))
+            print("-"*120)
+            ids = network_id_list_generator(net_devices)
+            print("{} INFO: Network ID List created successfully.".format(dt.now()))
 
-        # Getting the network IDs using the network device list generated and the network_id_list function.
-        print("{} INFO: Generating the list of network IDs associated with the network devices.".format(dt.now()))
-        print("-"*120)
-        ids = network_id_list_generator(net_devices)
-        print("{} INFO: Network ID List created successfully.".format(dt.now()))
-
-        # Creating the Network Name, Serial, Client MAC list using the cisco_device_export function.
-        print("{} INFO: Generating the device name and mgmt IP objects associated for the specific network IDs.".format(dt.now()))
-        print("-"*120)
-        cisco_device_export(ids, output_file)
+            # Creating the Network Name, Serial, Client MAC list using the cisco_device_export function.
+            print("{} INFO: Generating the device name and mgmt IP objects associated for the specific network IDs.".format(dt.now()))
+            print("-"*120)
+            cisco_device_export(ids, output_file)
 
 
     except KeyboardInterrupt:
