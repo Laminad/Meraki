@@ -42,8 +42,7 @@ if __name__ == "__main__":
 
         # Initiating the API session and creating API object to use in API queries
         m = meraki.DashboardAPI(api_key)
-
-        # Covance Meraki Organization ID. 
+ 
         # m.organizations.getOrganizations() 
         # Is the API method that was used to get this information.
         organization_id = input("Enter the Organization ID: ") 
