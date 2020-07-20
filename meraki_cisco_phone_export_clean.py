@@ -93,7 +93,7 @@ if __name__ == "__main__":
                 # Creating the Network Name, Serial, Client MAC list using the cisco_device_export function.
                 print("{} INFO: Generating the device name and mgmt IP objects associated for the specific network IDs.".format(dt.now()))
                 print("-"*120)
-                cisco_device_export(ids, output_file)
+                cisco_device_export(ids, ofile)
                 
           ofile.close()
 
