@@ -24,8 +24,8 @@ def network_id_list_generator(net_devices):
         network_ids.append(device['id'])
     return network_ids
 
-# A functions that takes a network id list and output file and exports 
-# the Cisco clients, network name, Meraki serial, and client MAC address to the output file.
+# A functions that takes a network id list and output file object and exports 
+# the Cisco clients, network name, Meraki serial, and client MAC to the output file.
 def cisco_device_export(net_ids, output_file):
         output_file.write("Network Name, Serial #, Manufacturer, MAC Address\n")
         for net_id in net_ids:
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     try:
         # Unique Meraki API key from the Meraki Dashboard
-        api_key = input("Enter your Meraki API Key: ")
+        api_key = input("Enter your Meraki API key: ")
 
         # Initiating the API session and creating API object to use in API queries
         m = meraki.DashboardAPI(api_key)
@@ -52,8 +52,8 @@ if __name__ == "__main__":
         object_pprint(orgs)
         organization_id = input("Enter the Organization ID: ") 
 
-        # The output file to export the device names and mgmt IPs after the script has completed.
-        output_file = input("Enter the file path for the cisco device output file: ")
+        # The output file to export the site names and device info after the script has completed.
+        output_file = input("Enter the file path for the output file: ")
 
         # m.config_templates.getOrganizationConfigTemplates(organization_id)
         # This command was used to find the device template IDs below.
