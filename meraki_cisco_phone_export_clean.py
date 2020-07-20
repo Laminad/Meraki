@@ -47,7 +47,8 @@ if __name__ == "__main__":
 
         # Initiating the API session and creating API object to use in API queries
         m = meraki.DashboardAPI(api_key)
- 
+        
+        # Outputting the Organization IDs and asking the user to input the organization they are working on.
         orgs = m.organizations.getOrganizations()
         object_pprint(orgs)
         organization_id = input("Enter the Organization ID: ") 
