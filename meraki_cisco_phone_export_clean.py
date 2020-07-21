@@ -28,7 +28,7 @@ def device_export(net_ids, output_file):
                 for client in site_clients:
                     if search(client["manufacturer"], "Cisco Systems"):
                         output_file.write("{}, {}, {}, {}\n".format(network_name, serial, client["manufacturer"], client["mac"]))
-            except:
+            except IndexError:
                 print("{} ERROR: Either no Meraki device or client associated with this network.".format(dt.now()))
 
 
@@ -44,9 +44,9 @@ if __name__ == "__main__":
         m = meraki.DashboardAPI(api_key)
         
         # Outputting the Organization IDs and asking the user to input the organization they are working on.
+        orgs = m.organizations.getOrganizations()
         print("\nOrganization IDs")
         print("-"*25)
-        orgs = m.organizations.getOrganizations()
         for org in orgs:
             print("{}: {}".format(org['name'], org['id']))
 
@@ -57,9 +57,9 @@ if __name__ == "__main__":
         
         # Outputting the organization config templates and asking the user to select the
         # specific templates they want the client information from.
+        temps = m.config_templates.getOrganizationConfigTemplates(organization_id)
         print("\nConfiguration Template IDs")
         print("-"*25)
-        temps = m.config_templates.getOrganizationConfigTemplates(organization_id)
         for temp in temps:
             print("{}: {}".format(temp['name'], temp['id']))
 
