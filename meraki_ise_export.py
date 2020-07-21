@@ -22,8 +22,9 @@ def mgmt_ip_and_device_name_list_generator(net_ids, output_file):
     for net_id in net_ids:
         try:
             serial = m.devices.getNetworkDevices(net_id)[0]['serial']
-            mgmt_ip = m.devices.getNetworkDevice(net_id, serial)['lanIp']
-            mgmt_ip = m.devices.getNetworkDevice(net_id, serial)['Ip']
+            mgmt_ip = m.devices.getNetworkDevice(net_id, serial)
+            # mgmt_ip = m.devices.getNetworkDevice(net_id, serial)['lanIp']
+            # mgmt_ip = m.devices.getNetworkDevice(net_id, serial)['Ip']
             device_name = device_name = m.networks.getNetwork(net_id)['name']
             print("{} INFO: Writing network name and mgmt IP to the output file > {} - {}.".format(dt.now(),device_name, mgmt_ip))
             output_file.write("{},{}\n".format(device_name, mgmt_ip))
@@ -46,7 +47,7 @@ if __name__ == "__main__":
         orgs = m.organizations.getOrganizations() 
         for org in orgs:
             print(org)
-            
+
         organization_id = input("Enter the Organization ID: ")
 
         # The output file to export the device names and mgmt IPs after the script has completed.
