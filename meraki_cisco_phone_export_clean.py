@@ -26,7 +26,7 @@ def network_id_list_generator(net_devices):
 
 # A functions that takes a network id list and output file object and exports 
 # the network name, Meraki serial, manufacturer (Cisco Systems) and client MAC to the output file.
-def cisco_device_export(net_ids, output_file):
+def device_export(net_ids, output_file):
         for net_id in net_ids:
             try:
                 serial = m.devices.getNetworkDevices(net_id)[0]['serial']
@@ -86,10 +86,10 @@ if __name__ == "__main__":
                 ids = network_id_list_generator(net_devices)
                 print("{} INFO: Network ID List created successfully.".format(dt.now()))
 
-                # Creating the Network Name, Serial, Manufacturer, and MAC list using the cisco_device_export function.
+                # Creating the Network Name, Serial, Manufacturer, and MAC list using the device_export function.
                 print("{} INFO: Generating the device name and mgmt IP objects associated for the specific network IDs.".format(dt.now()))
                 print("-"*120)
-                cisco_device_export(ids, ofile)
+                device_export(ids, ofile)
                 
         ofile.close()
 
