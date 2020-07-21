@@ -47,7 +47,7 @@ if __name__ == "__main__":
         orgs = m.organizations.getOrganizations()
         for org in orgs:
             print(org)
-            
+
         organization_id = input("Enter the Organization ID: ") 
 
         # The output file to export the site names and device info after the script has completed.
@@ -60,7 +60,7 @@ if __name__ == "__main__":
             print(temp)
 
         config_template_ids = []
-        user_input = "1"
+        user_input = "L_123"
         while user_input != "0":
             user_input = input("Enter a configuration template ID or 0 to end: ")
             if user_input !="0":
