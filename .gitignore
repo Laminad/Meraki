@@ -1,2 +1,3 @@
-meraki_api__log__*
 .vscode
+settings.json
+meraki_api__log__*
