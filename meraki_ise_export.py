@@ -1,4 +1,5 @@
 from datetime import datetime as dt
+from re import match
 import meraki
 import sys
 
@@ -21,10 +22,11 @@ def mgmt_ip_and_device_name_list_generator(net_ids, output_file):
     device_name = ''
     for net_id in net_ids:
         try:
-            serial = m.devices.getNetworkDevices(net_id)[0]['serial']
-            mgmt_ip = m.devices.getNetworkDevice(net_id, serial)
+            # serial = m.devices.getNetworkDevices(net_id)[0]['serial']
             # mgmt_ip = m.devices.getNetworkDevice(net_id, serial)['lanIp']
             # mgmt_ip = m.devices.getNetworkDevice(net_id, serial)['Ip']
+
+            mgmt_ip = m.vlans.getNetworkVlans(net_id)[0]["applianceIp"]
             device_name = device_name = m.networks.getNetwork(net_id)['name']
             print("{} INFO: Writing network name and mgmt IP to the output file > {} - {}.".format(dt.now(),device_name, mgmt_ip))
             output_file.write("{},{}\n".format(device_name, mgmt_ip))
@@ -48,8 +50,7 @@ if __name__ == "__main__":
         print("\nOrganization IDs")
         print("-"*25)
         for org in orgs:
-            print("Name: {}".format(org['name']))
-            print("ID: {}\n".format(org['id']))
+            print("{}:{}".format(org['name'], org['id']))
         organization_id = input("Enter the Organization ID: ")
 
         # The output file to export the device names and mgmt IPs after the script has completed.
@@ -61,14 +62,13 @@ if __name__ == "__main__":
         print("\nConfiguration Template IDs")
         print("-"*25)
         for temp in temps:
-            print("Name: {}".format(temp['name']))
-            print("ID: {}\n".format(temp['id']))
+            print("{}: {}".format(temp['name'], temp['id']))
 
         config_template_ids = []
         user_input = "L_123"
         while user_input != "0":
             user_input = input("Enter a configuration template ID or 0 to end: ")
-            if user_input !="0":
+            if user_input !="0" and match(r'[N_|L_]\d*', user_input):
                 config_template_ids.append(user_input)
 
         with open(output_file, 'w') as ofile:
