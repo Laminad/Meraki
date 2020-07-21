@@ -17,19 +17,19 @@ def network_id_list_generator(net_devices):
     return network_ids
 
 # A function that takes in a list of network IDs and creates objects of the corresponding network name and mgmt IP.
+# Other methods to get the mgmt_ip
+# serial = m.devices.getNetworkDevices(net_id)[0]['serial']
+# mgmt_ip = m.devices.getNetworkDevice(net_id, serial)['lanIp']
+# mgmt_ip = m.devices.getNetworkDevice(net_id, serial)['Ip']
 def mgmt_ip_and_device_name_list_generator(net_ids, output_file):
     mgmt_ip = ''
     device_name = ''
     for net_id in net_ids:
         try:
-            # serial = m.devices.getNetworkDevices(net_id)[0]['serial']
-            # mgmt_ip = m.devices.getNetworkDevice(net_id, serial)['lanIp']
-            # mgmt_ip = m.devices.getNetworkDevice(net_id, serial)['Ip']
-
             mgmt_ip = m.vlans.getNetworkVlans(net_id)[0]["applianceIp"]
             device_name = device_name = m.networks.getNetwork(net_id)['name']
             print("{} INFO: Writing network name and mgmt IP to the output file > {} - {}.".format(dt.now(),device_name, mgmt_ip))
-            output_file.write("{},{}\n".format(device_name, mgmt_ip))
+            output_file.write("{}, {}\n".format(device_name, mgmt_ip))
         except KeyError:
             print("{} ERROR: Device Offline.".format(dt.now()))
 
