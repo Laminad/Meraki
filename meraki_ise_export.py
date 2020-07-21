@@ -40,12 +40,13 @@ if __name__ == "__main__":
 
     try:
         # Unique Meraki API key from Meraki Dashboard
-        api_key = "948df9b6f664c31b42cc4ccde2c8817e72ddf7d9"
+        api_key = input("Enter you Meraki API key: ")
 
-        # LabCorp Meraki Organization ID. 
-        # m.organizations.getOrganizations() 
-        # Is the API method that was used to get this information.
-        organization_id = "388603" 
+         
+        orgs = m.organizations.getOrganizations() 
+        for org in orgs:
+            print(org)
+        organization_id = input("Enter the Organization ID: ")
 
         # The output file to export the device names and mgmt IPs after the script has completed.
         output_file = "C:\\Users\\danthompson\\Documents\\LabCorp\\wfh_z3_device_name_mgmt_ip.txt"
