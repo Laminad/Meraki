@@ -59,7 +59,7 @@ if __name__ == "__main__":
         output_file = input("Enter the file path for the output file: ")
         
         # Outputting the organization config templates and asking the user to select the
-        # specific template they with the client information they would like.
+        # specific templates they want the client information from.
         temps = m.config_templates.getOrganizationConfigTemplates(organization_id)
         for temp in temps:
             print(temp)
