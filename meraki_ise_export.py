@@ -54,7 +54,7 @@ if __name__ == "__main__":
         output_file = input("Enter the file path of the output file: ")
 
         # Outputting the organization config templates and asking the user to select the
-        # specific templates they want the client information from.
+        # specific templates they want the device information from.
         temps = m.config_templates.getOrganizationConfigTemplates(organization_id)
         for temp in temps:
             print(temp)
@@ -87,6 +87,7 @@ if __name__ == "__main__":
                 mgmt_ip_and_device_name_list_generator(ids, ofile)
 
         ofile.close
+
 
     except KeyboardInterrupt:
         # Except statement is to clean up keyboard interrupt output. 
