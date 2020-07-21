@@ -49,7 +49,6 @@ if __name__ == "__main__":
         print("-"*25)
         for org in orgs:
             print("{}: {}".format(org['name'], org['id']))
-
         organization_id = input("Enter the Organization ID: ") 
 
         # The output file to export the site names and device info after the script has completed.
