@@ -1,5 +1,6 @@
 from datetime import datetime as dt
 from re import search
+from re import match
 import meraki
 import sys
 
@@ -66,8 +67,10 @@ if __name__ == "__main__":
         user_input = "L_123"
         while user_input != "0":
             user_input = input("Enter a configuration template ID or 0 to end: ")
-            if user_input !="0":
+            if user_input !="0" and match(r'[N_|L_]\d*', user_input):
                 config_template_ids.append(user_input)
+            else:
+                print("Invalid Entry.")
         
         with open(output_file, "w") as ofile:
             
