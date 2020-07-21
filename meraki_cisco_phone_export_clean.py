@@ -46,7 +46,8 @@ if __name__ == "__main__":
         # Outputting the Organization IDs and asking the user to input the organization they are working on.
         orgs = m.organizations.getOrganizations()
         for org in orgs:
-            print(org)
+            print("Name: {}".format(org['name']))
+            print("ID: {}\n".format(org['id']))
 
         organization_id = input("Enter the Organization ID: ") 
 
@@ -57,7 +58,8 @@ if __name__ == "__main__":
         # specific templates they want the client information from.
         temps = m.config_templates.getOrganizationConfigTemplates(organization_id)
         for temp in temps:
-            print(temp)
+            print("Name: {}".format(temp['name']))
+            print("ID: {}\n".format(temp['id']))
 
         config_template_ids = []
         user_input = "L_123"
