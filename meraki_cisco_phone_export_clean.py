@@ -48,8 +48,7 @@ if __name__ == "__main__":
         print("-"*25)
         orgs = m.organizations.getOrganizations()
         for org in orgs:
-            print("Name: {}".format(org['name']))
-            print("ID: {}\n".format(org['id']))
+            print("{}: {}".format(org['name'], org['id']))
 
         organization_id = input("Enter the Organization ID: ") 
 
@@ -62,8 +61,7 @@ if __name__ == "__main__":
         print("-"*25)
         temps = m.config_templates.getOrganizationConfigTemplates(organization_id)
         for temp in temps:
-            print("Name: {}".format(temp['name']))
-            print("ID: {}\n".format(temp['id']))
+            print("{}: {}".format(temp['name'], temp['id']))
 
         config_template_ids = []
         user_input = "L_123"
