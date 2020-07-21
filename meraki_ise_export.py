@@ -44,6 +44,8 @@ if __name__ == "__main__":
         m = meraki.DashboardAPI(api_key)
 
         # Outputting the Organization IDs and asking the user to input the organization they are working on. 
+        print("\nOrganization IDs")
+        print("-"*25)
         orgs = m.organizations.getOrganizations() 
         for org in orgs:
             print("Name: {}".format(org['name']))
@@ -56,6 +58,8 @@ if __name__ == "__main__":
 
         # Outputting the organization config templates and asking the user to select the
         # specific templates they want the device information from.
+        print("\nConfiguration Template IDs")
+        print("-"*25)
         temps = m.config_templates.getOrganizationConfigTemplates(organization_id)
         for temp in temps:
             print("Name: {}".format(temp['name']))
