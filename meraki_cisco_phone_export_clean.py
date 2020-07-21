@@ -3,13 +3,6 @@ from re import search
 import meraki
 import sys
 
-# A pretty print method for simple JSON objects.
-def object_pprint(objects):
-    for obj in objects:
-        print('\n{')
-        for key in obj:
-            print('    {}: {}'.format(key, obj[key]))
-        print('}\n') 
 
 # A function that creates a list of devices associated with a specific device template in the Meraki dashboard.
 def network_device_list_generator(org_id, template):
@@ -52,7 +45,9 @@ if __name__ == "__main__":
         
         # Outputting the Organization IDs and asking the user to input the organization they are working on.
         orgs = m.organizations.getOrganizations()
-        object_pprint(orgs)
+        for org in orgs:
+            print(org)
+            
         organization_id = input("Enter the Organization ID: ") 
 
         # The output file to export the site names and device info after the script has completed.
