@@ -27,14 +27,16 @@ def network_id_list_generator(net_devices):
 # A functions that takes a network id list and output file object and exports 
 # the network name, Meraki serial, manufacturer (Cisco Systems) and client MAC to the output file.
 def cisco_device_export(net_ids, output_file):
-        output_file.write("Network Name, Serial #, Manufacturer, MAC Address\n")
         for net_id in net_ids:
-            serial = m.devices.getNetworkDevices(net_id)[0]['serial']
-            network_name = m.networks.getNetwork(net_id)['name']
-            site_clients = m.clients.getNetworkClients(net_id)
-            for client in site_clients:
-                if search(client["manufacturer"], "Cisco Systems"):
-                    output_file.write("{}, {}, {}, {}\n".format(network_name, serial, client["manufacturer"], client["mac"]))
+            try:
+                serial = m.devices.getNetworkDevices(net_id)[0]['serial']
+                network_name = m.networks.getNetwork(net_id)['name']
+                site_clients = m.clients.getNetworkClients(net_id)
+                for client in site_clients:
+                    if search(client["manufacturer"], "Cisco Systems"):
+                        output_file.write("{}, {}, {}, {}\n".format(network_name, serial, client["manufacturer"], client["mac"]))
+            except:
+                print("{} ERROR: Either no Meraki device or clients associated with this network.")
 
 
 if __name__ == "__main__":
@@ -60,9 +62,10 @@ if __name__ == "__main__":
         # specific template they with the client information they would like.
         m.config_templates.getOrganizationConfigTemplates(organization_id)
         config_template_ids = []
-        while user_input != 0:
+        user_input = "1"
+        while user_input != "0":
             user_input = input("Enter a configuration template ID or 0 to end: ")
-            if user_input != 0:
+            if user_input != "0":
                 config_template_ids.append(user_input)
         
         with open(output_file, "w") as ofile:
