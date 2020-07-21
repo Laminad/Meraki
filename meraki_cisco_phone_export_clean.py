@@ -36,7 +36,7 @@ def cisco_device_export(net_ids, output_file):
                     if search(client["manufacturer"], "Cisco Systems"):
                         output_file.write("{}, {}, {}, {}\n".format(network_name, serial, client["manufacturer"], client["mac"]))
             except:
-                print("{} ERROR: Either no Meraki device or clients associated with this network.")
+                print("{} ERROR: Either no Meraki device or client associated with this network.".format(dt.now()))
 
 
 if __name__ == "__main__":
@@ -60,12 +60,15 @@ if __name__ == "__main__":
         
         # Outputting the organization config templates and asking the user to select the
         # specific template they with the client information they would like.
-        m.config_templates.getOrganizationConfigTemplates(organization_id)
+        temps = m.config_templates.getOrganizationConfigTemplates(organization_id)
+        for temp in temps:
+            print(temp)
+
         config_template_ids = []
         user_input = "1"
         while user_input != "0":
             user_input = input("Enter a configuration template ID or 0 to end: ")
-            if user_input != "0":
+            if user_input !="0":
                 config_template_ids.append(user_input)
         
         with open(output_file, "w") as ofile:
@@ -83,12 +86,12 @@ if __name__ == "__main__":
                 ids = network_id_list_generator(net_devices)
                 print("{} INFO: Network ID List created successfully.".format(dt.now()))
 
-                # Creating the Network Name, Serial, Client MAC list using the cisco_device_export function.
+                # Creating the Network Name, Serial, Manufacturer, and MAC list using the cisco_device_export function.
                 print("{} INFO: Generating the device name and mgmt IP objects associated for the specific network IDs.".format(dt.now()))
                 print("-"*120)
                 cisco_device_export(ids, ofile)
                 
-          ofile.close()
+        ofile.close()
 
 
     except KeyboardInterrupt:
