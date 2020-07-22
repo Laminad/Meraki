@@ -1,5 +1,4 @@
 # Meraki 
-# Reporting and Network Creation Automation
  
 This is a set of Meraki scripts to report on information that the Meraki dashboard does not report on inherently.
 
