@@ -51,9 +51,6 @@ if __name__ == "__main__":
         for org in orgs:
             print("{}: {}".format(org['name'], org['id']))
         organization_id = input("Enter the Organization ID: ") 
-
-        # The output file to export the site names and device info after the script has completed.
-        output_file = input("Enter the file path for the output file: ")
         
         # Outputting the organization config templates and asking the user to select the
         # specific templates they want the client information from.
@@ -72,6 +69,8 @@ if __name__ == "__main__":
             else:
                 print("Invalid Entry.")
         
+        # The output file to export the site names and device info after the script has completed.
+        output_file = input("Enter the file path for the output file: ")
         with open(output_file, "w") as ofile:
             
             for template in config_template_ids:
