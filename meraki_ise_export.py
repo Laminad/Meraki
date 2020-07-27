@@ -4,7 +4,7 @@ import meraki
 import sys
 
 # A function that creates a list of devices associated with a specific device template in the Meraki dashboard.
-def network_device_list_generator(org_id, config_temp_ids):
+def network_device_list_generator(org_id, template):
     network_devices = []
     network_devices = m.networks.getOrganizationNetworks(org_id, configTemplateId=template)
     return network_devices
