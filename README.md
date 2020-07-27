@@ -7,3 +7,4 @@ Scripts
 Meraki client export for specific device templates </br>
 Meraki Bulk SSID and Firewall Rule build > Uses old API methods. Needs to be updated currently. </br>
 Meraki Device Name and MGMT IP export for ISE import </br>
+Meraki PoE Status check for MS devices</br>
