@@ -1,5 +1,4 @@
 from datetime import datetime as dt
-from re import search
 from re import match
 import meraki
 import sys
@@ -27,7 +26,7 @@ def device_export(net_ids, output_file):
                 network_name = m.networks.getNetwork(net_id)['name']
                 site_clients = m.clients.getNetworkClients(net_id)
                 for client in site_clients:
-                    if search(client["manufacturer"], "Cisco Systems"):
+                    if match(client["manufacturer"], "Cisco Systems"):
                         output_file.write("{}, {}, {}, {}\n".format(network_name, serial, client["manufacturer"], client["mac"]))
             except IndexError:
                 print("{} ERROR: Either no Meraki device or client associated with this network.".format(dt.now()))
@@ -66,6 +65,8 @@ if __name__ == "__main__":
             user_input = input("Enter a configuration template ID or 0 to end: ")
             if user_input !="0" and match(r'[N_|L_]\d*', user_input):
                 config_template_ids.append(user_input)
+            elif user_input ==  "0":
+                pass
             else:
                 print("Invalid Entry.")
         
