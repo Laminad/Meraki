@@ -1,3 +1,4 @@
 .vscode
 settings.json
 meraki_api__log__*
+vpn_stats.py
