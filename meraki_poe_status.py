@@ -28,7 +28,6 @@ if __name__ == "__main__":
             print("{}: {}".format(org['name'], org['id']))
         organization_id = input("Enter the Organization ID: ")
         serial_number = input("Enter the Serial number of the device to check PoE status for: ") 
-
         get_device_poe_status(serial_number)
 
     except KeyboardInterrupt:
