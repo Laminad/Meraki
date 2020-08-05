@@ -30,10 +30,8 @@ if __name__ == "__main__":
 
         device_serial = input("Enter the Device Serial number to remove: ")
         site_name = input("Enter the Network name the device is associated with: ")
-        print(site_name)
         network_id = network_search(site_name, organization_id)
-        print(network_id)
-
+        print("removing {} from {}".format(device_serial, site_name))
         m.devices.removeNetworkDevice(network_id, device_serial)
 
 
