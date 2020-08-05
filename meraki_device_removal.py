@@ -27,19 +27,16 @@ if __name__ == "__main__":
         for org in orgs:
             print("{}: {}".format(org['name'], org['id']))
         organization_id = input("Enter the Organization ID: ") 
-
         device_serial = input("Enter the Device Serial number to remove: ")
         site_name = input("Enter the Network name the device is associated with: ")
         network_id = network_search(site_name, organization_id)
         print("Removing {} from {}".format(device_serial, site_name))
         m.devices.removeNetworkDevice(network_id, device_serial)
 
-
     except KeyboardInterrupt:
         # Except statement is to clean up keyboard interrupt output. 
         # This stops the whole call stack from being output to the CLI.
         print("{} ERROR: Keyboard Interrupt.".format(dt.now()))
-
 
     # Calculating total runtime
     end_time = dt.now()
