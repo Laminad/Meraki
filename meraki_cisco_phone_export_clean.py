@@ -29,7 +29,7 @@ def device_export(net_ids, output_file):
                     if match(client["manufacturer"], "Cisco Systems"):
                         output_file.write("{}, {}, {}, {}\n".format(network_name, serial, client["manufacturer"], client["mac"]))
             except IndexError:
-                print("{} ERROR: Either no Meraki device or client associated with this network.".format(dt.now()))
+                print("{} ERROR: Either no Meraki device or client associated with network {}.".format(dt.now(), network_name))
 
 
 if __name__ == "__main__":
