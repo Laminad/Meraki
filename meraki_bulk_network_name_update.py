@@ -1,12 +1,13 @@
 from datetime import datetime as dt
-from re import search
+import re
 import meraki
 import sys
 
 def network_search(site_name, org_id):
-    organization_networks = m.networks.getOrganizationNetworks(org_id)
-    for network in organization_networks:
-        if search(site_name, network['name']):
+    org_networks = m.networks.getOrganizationNetworks(org_id)
+    for network in org_networks:
+        if re.search(re.compile(site_name), network['name']):
+            print(network['name'])
             return network['id']
 
 if __name__ == "__main__":
@@ -30,15 +31,16 @@ if __name__ == "__main__":
 
         network_ids_to_update = []
 
-        input_file = ("Enter the file of network names to update: ")
+        input_file = input("Enter the file of network names to update: ")
         with open(input_file, "r") as ifile:
-            for network_name in ifile:
-                site_name = network_name
+            for site_name in ifile:
+                print(site_name)
                 network_id = network_search(site_name, organization_id)
                 network_ids_to_update.append(network_id)
         ifile.close()
 
         for network_id in network_ids_to_update:
+            print(network_id)
             network_name = m.networks.getNetwork(network_id)['name']
             response = m.networks.updateNetwork(network_id, name=network_name+'-Migrated')
 
