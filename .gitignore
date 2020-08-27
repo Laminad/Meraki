@@ -2,3 +2,4 @@
 settings.json
 meraki_api__log__*
 vpn_stats.py
+network_names_to_update.txt
