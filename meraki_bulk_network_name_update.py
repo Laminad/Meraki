@@ -3,9 +3,8 @@ import re
 import meraki
 import sys
 
-def network_search(site_name, org_id):
-    organization_networks = m.networks.getOrganizationNetworks(org_id)
-    for network in organization_networks:
+def network_search(site_name, org_networks):
+    for network in org_networks:
         if re.match(site_name, network['name']):
             return network['id']
 
@@ -28,14 +27,13 @@ if __name__ == "__main__":
             print("{}: {}".format(org['name'], org['id']))
         organization_id = input("Enter the Organization ID: ")
         input_file = input("Enter the file of network names to update: ")
-        org_devices = m.devices.getOrganizationDevices(organization_id)
-        
+        organization_networks = m.networks.getOrganizationNetworks(organization_id)
         networks_to_update = []
 
-        with open(input_file, "r") as ifile:
-            for network_name in ifile:
-                print(network_name)
-                network_id = network_search(network_name, org_devices)
+        with open(input_file, "r", encoding="UTF-8") as ifile:
+            for network in ifile:
+                print(network)
+                network_id = network_search(network, organization_networks)
                 print(network_id)
                 network_name = m.networks.getNetwork(network_id)['name']
                 print(network_name)
