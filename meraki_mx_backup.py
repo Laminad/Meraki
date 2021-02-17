@@ -1,6 +1,7 @@
 from datetime import datetime as dt
 import meraki
 
+
 def get_time():
     return dt.now().replace(microsecond=0)
 
