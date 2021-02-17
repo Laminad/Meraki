@@ -1,62 +1,107 @@
 from datetime import datetime as dt
 from re import match
 import meraki
-import sys
 
-def network_search(site_name, org_id):
-    organization_networks = m.networks.getOrganizationNetworks(org_id)
-    for network in organization_networks:
-        if match(site_name, network['name']):
-            return network['id']
 
 if __name__ == "__main__":
     
     start_time = dt.now()
+    print(
+        """
+        #################################################################
+        #                                                               #
+        #                Meraki Config Template Rebind                  #
+        #                                                               #
+        #################################################################
+        """
+    )
 
     try:
-        # Unique Meraki API key from the Meraki Dashboard
+        # Asking the user to enter their unique Meraki API key from the Meraki Dashboard
         api_key = input("Enter your Meraki API key: ")
 
-        # Initiating the API session and creating API object to use in API queries
+
+        # Initiating the API session and creating API object to use in API queries with the API provided.
         m = meraki.DashboardAPI(api_key)
+
         
         # Outputting the Organization IDs and asking the user to input the organization they are working on.
         orgs = m.organizations.getOrganizations()
         print("\nOrganization IDs")
         print("-"*25)
         for org in orgs:
-            print("{}: {}".format(org['name'], org['id']))
-        organization_id = input("Enter the Organization ID: ") 
+            print(f"{org['name']}: {org['id']}")
+        organization_id = input("Enter the Organization ID: ")
+
 
         # Outputting the organization config templates and asking the user to select the
-        # specific templates they want the client information from.
-        temps = m.config_templates.getOrganizationConfigTemplates(organization_id)
+        # specific templates they want the want to rebind the devices to.
+        temps = m.organizations.getOrganizationConfigTemplates(organization_id)
         print("\nConfiguration Template IDs")
         print("-"*25)
         for temp in temps:
-            print("{}: {}".format(temp['name'], temp['id']))
+            print(f"{temp['name']}: {temp['id']}")
 
         config_template_id = ""
         user_input = "L_123"
         while True:
-            user_input = input("Enter a configuration template ID or 0 to end: ")
+            user_input = input("Enter the configuration template ID to rebind the networks to: ")
             if user_input !="0" and match(r'[N_|L_]\d*', user_input):
                 config_template_id = user_input
                 break
             else:
                 print("Invalid Entry.")
 
-        site_name = input("Enter the Network name the device is associated with: ")
-        network_id = network_search(site_name, organization_id)
-        status = m.networks.bindNetwork(network_id, config_template_id)
+
+        # Asking the user to enter the file path of the text file of devices to apply templates updates to.
+        input_file = input("Enter the file of serial numbers to complete a template update on: ")
+
+
+        # This loop uses a list of serial numbers to unbinds the old template if it exists 
+        # and then applies the new template that was provided previously.
+        # This is the fastest and most reliable method to update templates.
+        with open(input_file, "r") as ifile:
+            for serial in ifile:
+                network_id = m.devices.getDevice(serial.rstrip())["networkId"]
+                try:
+                    m.networks.unbindNetwork(network_id)
+                except:
+                    print(f"No template bound to device {serial}.")
+                try:
+                    m.networks.bindNetwork(network_id, config_template_id)
+                except:
+                    print(f"Failed to bind new template for serial {serial}.")
+
+
+        # These loops are useful if you need to find network IDs based on network name instead of serial number.
+        # This method should only be used as a last resort. It is slower and less reliable than using a list of serial numbers.
+        """
+        search_list = {}
+        network_list = m.organizations.getOrganizationNetworks(organization_id, total_pages='all', configTemplateId=config_template_id)
+        for network in network_list:
+            search_list[network["name"].rstrip()] = network["id"]
+
+        with open(input_file, "r") as ifile:
+            for network in network_list:
+                network_id = search_list[network.rstrip()]
+                try:
+                    m.networks.unbindNetwork(network_id)
+                except:
+                    print(f"No template bound to network {network}.")
+                try:
+                    m.networks.bindNetwork(network_id, config_template_id)
+                except:
+                    print(f"Failed to bind new template for network {network}.")
+        """
 
 
     except KeyboardInterrupt:
         # Except statement is to clean up keyboard interrupt output. 
         # This stops the whole call stack from being output to the CLI.
-        print("{} ERROR: Keyboard Interrupt.".format(dt.now()))
+        print(f"{dt.now()} ERROR: Keyboard Interrupt.")
+
 
     # Calculating total runtime
     end_time = dt.now()
     total_runtime = end_time - start_time
-    print("{} INFO: Total Runtime > {}".format(dt.now(), total_runtime))
+    print(f"{dt.now()} INFO: Total Runtime > {total_runtime}")
