@@ -1,4 +1,5 @@
 from datetime import datetime as dt
+from meraki.exceptions import APIError
 import meraki
 
 
@@ -47,7 +48,7 @@ if __name__ == "__main__":
         ifile.close()
 
         # Looping through the Meraki serial number array and capturing all valuable configuration elements,
-        # Then writing them to an output file to store the current configuration as JSON objects.
+        # then writing them to an output file to store the current configuration as JSON objects.
         with open(output_file, "w") as ofile:
             for serial in serial_array:
 
@@ -65,91 +66,85 @@ if __name__ == "__main__":
                 l7_firewall_rules = ""
                 vpn_bgp_settings = ""
                 site_to_site_vpn = ""
-                vpn_firewall_rules = ""
                 traffic_shaping_uplink_selection = ""
                 traffic_shaping_bandwidth_limits = ""
 
 
                 try:
                     network_id = m.devices.getDevice(serial)["networkId"]
-                except:
+                except APIError:
                     print(f"{get_time()}       script:    ERROR > No network with serial {serial}")
                     pass
                 try:
                     network = m.networks.getNetwork(network_id)
                     device_config["network"] = network
-                except:
+                except APIError:
                     print(f"{get_time()}       script:    ERROR > Invalid network id {network_id}")
                     pass
                 try:
                     traffic_analysis = m.networks.getNetworkTrafficAnalysis(network_id)
                     device_config["traffic_analysis"] = traffic_analysis
-                except:
+                except APIError:
                     print(f"{get_time()}       script:     INFO > Traffic analysis not configured or disabled on {network['name']}")
                 try:
                     syslog_servers = m.networks.getNetworkSyslogServers(network_id)
                     device_config["syslog_servers"] = syslog_servers
-                except:
+                except APIError:
                     print(f"{get_time()}       script:     INFO > No syslog servers configured on {network['name']}")
                 try:
                     snmp_configuration = m.networks.getNetworkSnmp(network_id)
                     device_config["snmp_configuration"] = snmp_configuration
-                except:
+                except APIError:
                     print(f"{get_time()}       script:     INFO > No snmp configuration on {network['name']}")
                 try:
                     firmware_schedule = m.networks.getNetworkFirmwareUpgrades(network_id)
                     device_config["firmware_schedule"] = firmware_schedule
-                except:
+                except APIError:
                     print(f"{get_time()}       script:     INFO > No firmware upgrade schedule configured on {network['name']}")
                 try:
                     alerts = m.networks.getNetworkAlertsSettings(network_id)
                     device_config["alerts"] = alerts
-                except:
+                except APIError:
                     print(f"{get_time()}       script:     INFO > No alert configurtion applied on {network['name']}")
                 try:
                     vlans = m.appliance.getNetworkApplianceVlans(network_id)
                     device_config["vlans"] = vlans
-                except:
+                except APIError:
                     print(f"{get_time()}       script:     INFO > No vlan configuration applied on {network['name']}")
                 try:
                     static_routes = m.appliance.getNetworkApplianceStaticRoutes(network_id)
                     device_config["static_routes"] = static_routes
-                except:
+                except APIError:
                     print(f"{get_time()}       script:     INFO > No static routes configured on {network['name']}")
                 try:
                     l3_firewall_rules = m.appliance.getNetworkApplianceFirewallL3FirewallRules(network_id)
                     device_config["l3_firewall_rules"] = l3_firewall_rules
-                except:
+                except APIError:
                     print(f"{get_time()}       script:     INFO > No l3 firewall rules configured on {network['name']}")
                 try:
                     l7_firewall_rules = m.appliance.getNetworkApplianceFirewallL7FirewallRules(network_id)
                     device_config["l7_firewall_rules"] = l7_firewall_rules
-                except:
+                except APIError:
                     print(f"{get_time()}       script:     INFO > No l7 Firewall rules configured on {network['name']}")
                 try:
                     vpn_bgp_settings = m.appliance.getNetworkApplianceVpnBgp(network_id)
                     device_config["vpn_bgp_settings"] = vpn_bgp_settings
-                except:
+                except APIError:
                     print(f"{get_time()}       script:     INFO > No bgp configuration applied on {network['name']}")
                 try:
                     site_to_site_vpn = m.appliance.getNetworkApplianceVpnSiteToSiteVpn(network_id)
                     device_config["site_to_site_vpn"] = site_to_site_vpn
-                except:
+                except APIError:
                     print(f"{get_time()}       script:     INFO > No site to site vpn configuration applied on {network['name']}")
-                try:
-                    vpn_firewall_rules = m.appliance.getNetworkApplianceVpnVpnFirewallRules(network_id)
-                    device_config["vpn_firewall_rules"] = vpn_firewall_rules
-                except:
-                    print(f"{get_time()}       script:     INFO > No vpn firewall rules configured on {network['name']}")
                 try:
                     traffic_shaping_uplink_selection = m.appliance.getNetworkApplianceTrafficShapingUplinkSelection(network_id)
                     device_config["traffic_shaping_uplink_selection"] = traffic_shaping_uplink_selection
-                except:
+                except APIError:
                     print(f"{get_time()}       script:     INFO > No traffic shaping uplink policies configured on {network['name']}")
                 try:
                     traffic_shaping_bandwidth_limits = m.appliance.getNetworkApplianceTrafficShapingUplinkBandwidth(network_id)
                     device_config["traffic_shaping_bandwidth_limits"] = traffic_shaping_bandwidth_limits
-                except:
+                except APIError:
                     print(f"{get_time()}       script:     INFO > No traffic shaping bandwidth limited configured on {network['name']}")
 
 
