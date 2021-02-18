@@ -91,12 +91,12 @@ if __name__ == "__main__":
                 network_id = search_list[network.rstrip()]
                 try:
                     m.networks.unbindNetwork(network_id)
-                except:
-                    print(f"No template bound to network {network}.")
+                except APIError:
+                    print(f"{get_time}       script:   ERROR > No template bound to device {serial}.")
                 try:
                     m.networks.bindNetwork(network_id, config_template_id)
-                except:
-                    print(f"Failed to bind new template for network {network}.")
+                except APIError:
+                    print(f"{get_time}       script:   ERROR > Failed to bind new template for serial {serial}.")
         """
 
 
