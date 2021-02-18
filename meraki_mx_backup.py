@@ -37,10 +37,10 @@ if __name__ == "__main__":
         print("\n")
 
         # Asking the user to enter the file path of the text file of devices to apply templates updates to.
-        input_file = r"C:\Users\danthompson\Documents\Repos\Meraki\serials.txt"
-        output_file = r"C:\Users\danthompson\Documents\Repos\Meraki\mx_backup.txt"
+        input_file = input("Enter the file path of Meraki serial number to backup: ")
+        output_file = input("Enter the file path for the file that will be used to store the backup configurations: ")
 
-        # Creating an array of the Meraki serial numbers to backup.
+        # Creating an array of the Meraki serial numbers to backup using the input file provided.
         serial_array = []
         with open(input_file, "r") as ifile:
             for serial in ifile:
