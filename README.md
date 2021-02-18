@@ -1,10 +1,12 @@
 # Meraki 
  
-This is a set of Meraki scripts to report on information that the Meraki dashboard does not report on inherently.
+This is a set of Meraki scripts to report on and modify the information in the Meraki dashboard.
 
 Scripts
 --------
 Meraki client export for specific device templates </br>
-Meraki Bulk SSID and Firewall Rule build > Uses old API methods. Needs to be updated currently. </br>
+Meraki Bulk SSID and Firewall Rule build > Uses old API methods. (Needs to be updated currently.) </br>
 Meraki Device Name and MGMT IP export for ISE import </br>
 Meraki PoE Status check for MS devices</br>
+Meraki MX configuration backup</br>
+Meraki Bulk network name updates</br>
