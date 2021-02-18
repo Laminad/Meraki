@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
 
         # Asking the user to enter the file path of the text file of devices to apply templates updates to.
-        input_file = input("Enter the file of serial numbers to complete a template update on: ")
+        input_file = input("Enter the file path to the file of serial numbers to complete a template rebind on: ")
 
 
         # This loop uses a list of serial numbers to unbinds the old template if it exists 
