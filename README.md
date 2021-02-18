@@ -1,6 +1,6 @@
 # Meraki 
  
-This is a set of Meraki scripts to report on and modify the information in the Meraki dashboard.
+This is a set of Meraki API scripts to report on and modify the information in the Meraki dashboard.
 
 Scripts
 --------
