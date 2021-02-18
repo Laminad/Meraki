@@ -1,6 +1,11 @@
 from datetime import datetime as dt
+from meraki.exceptions import APIError
 from re import match
 import meraki
+
+
+def get_time():
+    return dt.now().replace(microsecond=0)
 
 
 if __name__ == "__main__":
@@ -65,12 +70,12 @@ if __name__ == "__main__":
                 network_id = m.devices.getDevice(serial.rstrip())["networkId"]
                 try:
                     m.networks.unbindNetwork(network_id)
-                except:
-                    print(f"No template bound to device {serial}.")
+                except APIError:
+                    print(f"{get_time}    script:   ERROR > No template bound to device {serial}.")
                 try:
                     m.networks.bindNetwork(network_id, config_template_id)
-                except:
-                    print(f"Failed to bind new template for serial {serial}.")
+                except APIError:
+                    print(f"{get_time}    script:   ERROR > Failed to bind new template for serial {serial}.")
 
 
         # These loops are useful if you need to find network IDs based on network name instead of serial number.
@@ -98,10 +103,10 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         # Except statement is to clean up keyboard interrupt output. 
         # This stops the whole call stack from being output to the CLI.
-        print(f"{dt.now()} ERROR: Keyboard Interrupt.")
+        print(f"{get_time}    script:   ERROR > Keyboard Interrupt.")
 
 
     # Calculating total runtime
     end_time = dt.now()
     total_runtime = end_time - start_time
-    print(f"{dt.now()} INFO: Total Runtime > {total_runtime}")
+    print(f"{get_time}    script:    INFO > Total Runtime {total_runtime}")
