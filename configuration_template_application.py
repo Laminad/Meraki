@@ -67,7 +67,11 @@ if __name__ == "__main__":
         # This is the fastest and most reliable method to update templates.
         with open(input_file, "r") as ifile:
             for serial in ifile:
-                network_id = m.devices.getDevice(serial.rstrip())["networkId"]
+                try:
+                    network_id = m.devices.getDevice(serial.rstrip())["networkId"]
+                except APIError:
+                    print(f"{get_time()}       script:    ERROR > No network id found for device {serial}.")
+                    pass
                 try:
                     m.networks.unbindNetwork(network_id)
                 except APIError:
