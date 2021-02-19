@@ -82,7 +82,7 @@ if __name__ == "__main__":
         # This method should only be used as a last resort. It is slower and less reliable than using a list of serial numbers.
         """
         search_list = {}
-        network_list = m.organizations.getOrganizationNetworks(organization_id, total_pages='all', configTemplateId=config_template_id)
+        network_list = m.organizations.getOrganizationNetworks(organization_id, total_pages='all')
         for network in network_list:
             search_list[network["name"].rstrip()] = network["id"]
 
@@ -92,11 +92,11 @@ if __name__ == "__main__":
                 try:
                     m.networks.unbindNetwork(network_id)
                 except APIError:
-                    print(f"{get_time}       script:   ERROR > No template bound to device {serial}.")
+                    print(f"{get_time()}       script:    ERROR > No template bound to device {serial}.")
                 try:
                     m.networks.bindNetwork(network_id, config_template_id)
                 except APIError:
-                    print(f"{get_time}       script:   ERROR > Failed to bind new template for serial {serial}.")
+                    print(f"{get_time()}       script:    ERROR > Failed to bind new template for serial {serial}.")
         """
 
 
