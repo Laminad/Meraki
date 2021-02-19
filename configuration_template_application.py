@@ -71,11 +71,11 @@ if __name__ == "__main__":
                 try:
                     m.networks.unbindNetwork(network_id)
                 except APIError:
-                    print(f"{get_time}       script:    ERROR > No template bound to device {serial}.")
+                    print(f"{get_time()}       script:    ERROR > No template bound to device {serial}.")
                 try:
                     m.networks.bindNetwork(network_id, config_template_id)
                 except APIError:
-                    print(f"{get_time}       script:    ERROR > Failed to bind new template for serial {serial}.")
+                    print(f"{get_time()}       script:    ERROR > Failed to bind new template for serial {serial}.")
 
 
         # These loops are useful if you need to find network IDs based on network name instead of serial number.
@@ -103,10 +103,10 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         # Except statement is to clean up keyboard interrupt output. 
         # This stops the whole call stack from being output to the CLI.
-        print(f"{get_time}       script:    ERROR > Keyboard Interrupt.")
+        print(f"{get_time()}       script:    ERROR > Keyboard Interrupt.")
 
 
     # Calculating total runtime
     end_time = dt.now()
     total_runtime = end_time - start_time
-    print(f"{get_time}       script:     INFO > Total Runtime {total_runtime}")
+    print(f"{get_time()}       script:     INFO > Total Runtime {total_runtime}")
