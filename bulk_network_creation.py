@@ -49,7 +49,7 @@ if __name__ == "__main__":
                 serial = row[0].rstrip()
                 network_name = row[1].rstrip()
                 address = row[2].rstrip()
-                notes = row[3].rstrip()
+                # notes = row[3].rstrip()
                 
                 network_id = m.organizations.createOrganizationNetwork(
                     organization_id, 
@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
                 m.networks.bindNetwork(network_id, template_id)
                 m.networks.claimNetworkDevices(network_id, serials=[serial])
-                m.devices.updateDevice(serial, name=network_name, address=address, notes=notes)
+                m.devices.updateDevice(serial, name=network_name, address=address)
 
                 # device_name = row[4]
                 # network_id = m.devices.getDevice(serial)['networkId']

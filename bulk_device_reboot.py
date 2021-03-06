@@ -1,6 +1,7 @@
 #! Python3
 
 from datetime import datetime as dt
+from meraki.exceptions import APIError
 import meraki
 import sys
 
@@ -28,7 +29,10 @@ if __name__ == "__main__":
 
         with open(input_file, 'r') as ifile:
             for serial in ifile:
-                m.devices.rebootDevice(serial.rstrip())
+                try:
+                    m.devices.rebootDevice(serial.rstrip())
+                except APIError:
+                    pass
                 
     except KeyboardInterrupt:
         # Except statement is to clean up keyboard interrupt output. 
