@@ -34,6 +34,7 @@ if __name__ == "__main__":
         for temp in temps:
             print(f"{temp['name']}: {temp['id']}")
 
+        # Asking the user for the config template they want to complete the API command on.
         config_template_id = ""
         user_input = "L_123"
         while True:
@@ -44,15 +45,19 @@ if __name__ == "__main__":
             else:
                 print("Invalid Entry.")
 
+        # Gettting all the networks associated with the template provided and storing them to iterate through them.
         template_networks = m.organizations.getOrganizationNetworks(organization_id, configTemplateId=config_template_id)
 
+        # Iterating through the networks and rebooting all the devices associated with a specific template.
         for network in template_networks:
             network_id = network["id"]
-            try:
-                serial = m.networks.getNetworkDevices(network_id)[0]["serial"]
-                m.devices.rebootDevice(serial.rstrip())
-            except APIError:
-                pass
+            devices = m.networks.getNetworkDevices(network_id)
+            for device in devices:
+                serial = device["serial"].rstrip()
+                try:
+                    m.devices.rebootDevice(serial)
+                except APIError:
+                    pass
                 
     except KeyboardInterrupt:
         # Except statement is to clean up keyboard interrupt output. 
