@@ -52,13 +52,16 @@ if __name__ == "__main__":
                     print(f"{get_time()}       script:    ERROR > No template bound to device {serial}.")
                 try:
                     config_template_id = search_space[network_id]
+
                     if config_template_id == "N_630503947831954623":
-                        # WFH ALT CALL CNTR -> RCM_CCC_Cluster 2
+                        # DEFAULT TEMPLATE - WFH ALT CALL CTR: N_630503947831954623 -> RCM_CCC_Cluster 2: N_762797186885880884
                         m.networks.bindNetwork(network_id, "N_762797186885880884")
+
                     elif config_template_id == "N_630503947831922447" or config_template_id == "N_630503947831959324":
-                        # Deprecated WFH w/ no WiFi -> RCM_CCC_Cluster 1
-                        # DEFAULT WFH w/ no WiFi -> RCM_CCC_Cluster 1
+                        # DEFAULT TEMPLATE - WFH Z3 NO WIFI: N_630503947831959324 -> RCM_CCC_Cluster 1: N_762797186885880895
+                        # DEPRECTED - WFH Z3 NO WIFI: N_630503947831922447 -> RCM_CCC_Cluster 1: N_762797186885880895
                         m.networks.bindNetwork(network_id, "N_762797186885880895")
+                        
                 except APIError:
                     print(f"{get_time()}       script:    ERROR > Failed to bind new template for serial {serial}.")
 
