@@ -61,7 +61,7 @@ if __name__ == "__main__":
                         # DEFAULT TEMPLATE - WFH Z3 NO WIFI: N_630503947831959324 -> RCM_CCC_Cluster 1: N_762797186885880895
                         # DEPRECTED - WFH Z3 NO WIFI: N_630503947831922447 -> RCM_CCC_Cluster 1: N_762797186885880895
                         m.networks.bindNetwork(network_id, "N_762797186885880895")
-                        
+
                 except APIError:
                     print(f"{get_time()}       script:    ERROR > Failed to bind new template for serial {serial}.")
 
