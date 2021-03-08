@@ -34,7 +34,7 @@ if __name__ == "__main__":
         config_template_ids = ["N_630503947831922447", "N_630503947831954623", "N_630503947831959324"]
 
         for template_id in config_template_ids:
-            networks = m.organizations.getOrganizationNetworks("388603", configTemplateId=template_id)
+            networks = m.organizations.getOrganizationNetworks("388603", total_pages="all", configTemplateId=template_id)
             for network in networks:
                 network_id = network["id"]
                 search_space[network_id] = template_id
