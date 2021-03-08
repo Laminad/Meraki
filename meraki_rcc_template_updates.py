@@ -39,9 +39,7 @@ if __name__ == "__main__":
                 network_id = network["id"]
                 search_space[network_id] = template_id
 
-        # This loop uses a list of serial numbers to unbinds the old template if it exists 
-        # and then applies the new template that was provided previously.
-        # This is the fastest and most reliable method to update templates.
+
         with open(input_file, "r") as ifile:
             for serial in ifile:
                 try:
@@ -53,19 +51,15 @@ if __name__ == "__main__":
                     m.networks.unbindNetwork(network_id)
                 except APIError:
                     print(f"{get_time()}       script:    ERROR > No template bound to device {serial}.")
-
                 try:
                     config_template_id = search_space[network_id]
-
                     if config_template_id == "N_630503947831954623":
                         # WFH ALT CALL CNTR -> RCM_CCC_Cluster 2
                         m.networks.bindNetwork(network_id, "N_762797186885880884")
-
                     elif config_template_id == "N_630503947831922447" or config_template_id == "N_630503947831959324":
                         # Deprecated WFH w/ no WiFi -> RCM_CCC_Cluster 1
                         # DEFAULT WFH w/ no WiFi -> RCM_CCC_Cluster 1
                         m.networks.bindNetwork(network_id, "N_762797186885880895")
-
                 except APIError:
                     print(f"{get_time()}       script:    ERROR > Failed to bind new template for serial {serial}.")
 
