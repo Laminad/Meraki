@@ -1,6 +1,5 @@
 from datetime import datetime as dt
 from meraki.exceptions import APIError
-from re import match, template
 import meraki
 
 
